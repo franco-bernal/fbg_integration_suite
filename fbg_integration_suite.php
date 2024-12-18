@@ -83,6 +83,10 @@ class Fbg_integration_suite extends Module
         }
 
     }
+    public function getContext()
+    {
+        return $this->context;
+    }
 
 
 
@@ -110,6 +114,8 @@ class Fbg_integration_suite extends Module
         // Ejecutar la consulta
         $appsWithHooks = $db->executeS($query);
 
+        $output = ''; // Almacenar el contenido devuelto por los hooks
+
         foreach ($appsWithHooks as $appData) {
             $appFile = _PS_MODULE_DIR_ . $this->name . $appData['url'] . '/' . strtolower($appData['name']) . '.php';
             $className = ucfirst($appData['name']);
@@ -123,11 +129,14 @@ class Fbg_integration_suite extends Module
 
                     // Ejecutar el método con el nombre original que incluye "hook"
                     if (method_exists($appInstance, $hookName)) {
-                        call_user_func_array([$appInstance, $hookName], $arguments);
+                        // Concatenar el contenido devuelto por cada hook
+                        $output .= call_user_func_array([$appInstance, $hookName], $arguments);
                     }
                 }
             }
         }
+
+        return $output; // Devolver el contenido acumulado
     }
 
 
@@ -190,18 +199,18 @@ class Fbg_integration_suite extends Module
                 // Verificar si el método install existe
                 if (method_exists($appInstance, 'install')) {
                     if ($appInstance->install()) {
-                        $this->confirmations[] = $this->l('La aplicación ' . $appClass . ' se ha instalado correctamente.');
+                        echo ('La aplicación ' . $appClass . ' se ha instalado correctamente.');
                     } else {
-                        $this->errors[] = $this->l('Error al instalar la aplicación ' . $appClass . '.');
+                        echo ('Error al instalar la aplicación ' . $appClass . '.');
                     }
                 } else {
-                    $this->errors[] = $this->l('La aplicación ' . $appClass . ' no tiene un método install.');
+                    echo ('La aplicación ' . $appClass . ' no tiene un método install.');
                 }
             } else {
-                $this->errors[] = $this->l('No se encontró la clase de la aplicación ' . $appClass . '.');
+                echo ('No se encontró la clase de la aplicación ' . $appClass . '.');
             }
         } else {
-            $this->errors[] = $this->l('No se encontró el archivo de la aplicación en ' . $suitePath . '.');
+            echo ('No se encontró el archivo de la aplicación en ' . $suitePath . '.');
         }
     }
 

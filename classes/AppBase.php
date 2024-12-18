@@ -20,6 +20,12 @@ abstract class AppBase
         $this->url = $url;
     }
 
+    public function getContext()
+    {
+        return $this->module->getContext();
+    }
+
+
     /**
      * Validar si la aplicación ya está instalada.
      */

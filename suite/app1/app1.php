@@ -17,6 +17,8 @@ class App1 extends AppBase
             'Primera aplicación de prueba',
             '/suite/app1'
         );
+        $this->module = $module;
+
     }
 
     // gestion controladores
@@ -35,7 +37,11 @@ class App1 extends AppBase
         }
 
         // Registrar hooks
-        $hooks = ['displayHeader', 'displayFooter'];
+        $hooks = [
+            'displayHeader',
+            'displayFooter',
+            'hookDisplayTop'
+        ];
         if (!$this->installHooks($hooks)) {
             return false;
         }
@@ -54,5 +60,34 @@ class App1 extends AppBase
     {
         echo '<h1 style="color: green;">App1: hookDisplayFooter ejecutado</h1>';
     }
+    public function hookDisplayTop($params)
+    {
+        echo "hola";
+        // Obtener el contexto del módulo
+        $context = $this->getContext();
+
+        // Ruta de la plantilla
+        $templatePath = _PS_MODULE_DIR_ . 'fbg_integration_suite/suite/' . strtolower($this->name) . '/views/front/default.tpl';
+
+        // Verificar si la plantilla existe
+        if (!file_exists($templatePath)) {
+            return '<p>Error: No se encontró la plantilla en ' . $templatePath . '</p>';
+        }
+
+        // Validar que `smarty` esté configurado
+        if (!isset($context->smarty)) {
+            return '<p>Error: Smarty no está inicializado en el contexto.</p>';
+        }
+
+        // Asignar valores a Smarty
+        $context->smarty->assign([
+            'customVar' => 'Valor personalizado para la plantilla',
+        ]);
+
+        // Renderizar y devolver la plantilla con Smarty
+        return $context->smarty->fetch($templatePath);
+    }
+
+
 
 }
