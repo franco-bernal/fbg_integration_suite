@@ -9,6 +9,8 @@ include_once _PS_MODULE_DIR_ . 'fbg_integration_suite/classes/AppBase.php';
 
 class App1 extends AppBase
 {
+    protected $context;
+
     public function __construct($module)
     {
         parent::__construct(
@@ -17,7 +19,8 @@ class App1 extends AppBase
             'Primera aplicación de prueba',
             '/suite/app1'
         );
-        $this->module = $module;
+        $this->context = $this->getContext();
+
 
     }
 
@@ -64,7 +67,7 @@ class App1 extends AppBase
     {
         echo "hola";
         // Obtener el contexto del módulo
-        $context = $this->getContext();
+        $this->context = $this->getContext();
 
         // Ruta de la plantilla
         $templatePath = _PS_MODULE_DIR_ . 'fbg_integration_suite/suite/' . strtolower($this->name) . '/views/front/default.tpl';
@@ -75,17 +78,17 @@ class App1 extends AppBase
         }
 
         // Validar que `smarty` esté configurado
-        if (!isset($context->smarty)) {
+        if (!isset($this->context->smarty)) {
             return '<p>Error: Smarty no está inicializado en el contexto.</p>';
         }
 
         // Asignar valores a Smarty
-        $context->smarty->assign([
+        $this->context->smarty->assign([
             'customVar' => 'Valor personalizado para la plantilla',
         ]);
 
         // Renderizar y devolver la plantilla con Smarty
-        return $context->smarty->fetch($templatePath);
+        return $this->context->smarty->fetch($templatePath);
     }
 
 
