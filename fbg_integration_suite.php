@@ -57,7 +57,71 @@ class Fbg_integration_suite extends Module
         $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
 
 
-        $this->init();
+        // $this->init();
+    }
+
+
+    ######### INSTALL METHODS
+    /**
+     * Don't forget to create update methods if needed:
+     * http://doc.prestashop.com/display/PS16/Enabling+the+Auto-Update
+     */
+    public function install()
+    {
+        if (!parent::install()) {
+            return false;
+        }
+
+        // Crear tablas directamente en el método install()
+        $sql = array();
+
+        // Crear tabla fbg_integration_suite_app
+        $sql[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'fbg_integration_suite_app` (
+            `id_app` INT NOT NULL AUTO_INCREMENT,
+            `name` VARCHAR(255) NOT NULL,
+            `active` TINYINT(1) NOT NULL DEFAULT 1,
+            `url` VARCHAR(255) NOT NULL,
+            PRIMARY KEY (`id_app`)
+        ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8mb4;';
+
+        // Crear tabla fbg_integration_suite_hooks
+        $sql[] = 'CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'fbg_integration_suite_hooks` (
+            `id_hook` INT NOT NULL AUTO_INCREMENT,
+            `id_app` INT NOT NULL,
+            `hooks` TEXT NOT NULL,
+            PRIMARY KEY (`id_hook`),
+            FOREIGN KEY (`id_app`) REFERENCES `' . _DB_PREFIX_ . 'fbg_integration_suite_app`(`id_app`) ON DELETE CASCADE
+        ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8mb4;';
+
+        // Ejecutar las consultas SQL
+        foreach ($sql as $query) {
+            if (!Db::getInstance()->execute($query)) {
+                return false;  // Si alguna consulta falla, detener la instalación
+            }
+        }
+
+        return true;
+    }
+
+
+    public function uninstall()
+    {
+        // SQL para eliminar las tablas relacionadas con el módulo
+        $sql = array();
+
+        // $sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'fbg_integration_suite_hooks`';
+        // $sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'fbg_integration_suite_app`';
+        $sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'fbg_integration_suite`';
+
+        // Ejecutar las consultas SQL
+        foreach ($sql as $query) {
+            if (!Db::getInstance()->execute($query)) {
+                return false; // Retorna false si alguna eliminación falla
+            }
+        }
+
+        // Llamar al método original de desinstalación
+        return parent::uninstall();
     }
 
 
@@ -144,6 +208,28 @@ class Fbg_integration_suite extends Module
 
     public function getContent()
     {
+
+        // $tab = new Tab();
+        // $tab->class_name = 'AdminFbgIntegrationSuiteProxy';
+        // $tab->module = $this->name;
+        // $tab->id_parent = Tab::getIdFromClassName('IMPROVE'); // Sección "Mejorar"
+        // $tab->name = [];
+        // foreach (Language::getLanguages() as $lang) {
+        //     $tab->name[$lang['id_lang']] = 'FBG Integration';
+        // }
+        // $tab->active = 1;
+        //  $tab->add();
+        // $tab = new Tab();
+        // $tab->class_name = 'AdminCookieslawController';  // Nombre de la clase del controlador
+        // $tab->module = $this->name;  // Nombre del módulo
+        // $tab->id_parent = (int) Tab::getIdFromClassName('AdminParentModulesSf');  // Pestaña padre (Módulos)
+        // $tab->name = [];
+        // foreach (Language::getLanguages(true) as $lang) {
+        //     $tab->name[$lang['id_lang']] = 'Cookies Law';
+        // }
+        // $tab->save();
+
+
         // Procesar instalación de una app
         if (Tools::isSubmit('install_app')) {
             $appClass = Tools::getValue('install_app');
@@ -309,44 +395,7 @@ class Fbg_integration_suite extends Module
 
 
 
-    ######### INSTALL METHODS
-    /**
-     * Don't forget to create update methods if needed:
-     * http://doc.prestashop.com/display/PS16/Enabling+the+Auto-Update
-     */
-    public function install()
-    {
-        // Verificar si la instalación base del módulo se realiza correctamente
-        if (!parent::install()) {
-            return false;
-        }
 
-        // Crear las tablas necesarias para el módulo
-        require_once(dirname(__FILE__) . '/sql/install.php');
-
-        return true;
-    }
-
-
-    public function uninstall()
-    {
-        // SQL para eliminar las tablas relacionadas con el módulo
-        $sql = array();
-
-        // $sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'fbg_integration_suite_hooks`';
-        // $sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'fbg_integration_suite_app`';
-        $sql[] = 'DROP TABLE IF EXISTS `' . _DB_PREFIX_ . 'fbg_integration_suite`';
-
-        // Ejecutar las consultas SQL
-        foreach ($sql as $query) {
-            if (!Db::getInstance()->execute($query)) {
-                return false; // Retorna false si alguna eliminación falla
-            }
-        }
-
-        // Llamar al método original de desinstalación
-        return parent::uninstall();
-    }
 
 }
 

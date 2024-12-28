@@ -1,0 +1,24 @@
+{
+    "popups": [
+        {
+            "id_shop": 5,
+            "theme": "default",
+            "configuration": {
+                "initialDelay": 0,
+                "closeDelay": 1800000,
+                "neverShowDelay": 604800000,
+                "pagesBeforeShow": 0,
+                "pagesAfterClose": 0
+            },
+            "presentation": {
+                "icon": "https:\/\/media0.giphy.com\/media\/XI1G0H2RL7dAKvBny2\/giphy.gif",
+                "text": "Texto del popup 16hrs",
+                "backgroundcolor": "#ffffff",
+                "color": "#000000",
+                "border": "2",
+                "buttonColor": "#ffffff",
+                "buttonBackground": "#000000"
+            }
+        }
+    ]
+}

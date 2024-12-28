@@ -1,0 +1,24 @@
+{
+    "popups": [
+        {
+            "id_shop": 1,
+            "theme": "default",
+            "configuration": {
+                "initialDelay": 0,
+                "closeDelay": 1800000,
+                "neverShowDelay": 604800000,
+                "pagesBeforeShow": 0,
+                "pagesAfterClose": 0
+            },
+            "presentation": {
+                "icon": "\/modules\/fbg_integration_suite\/suite\/cookieslaw\/views\/img\/PZ_SS25_WEB_COOKIES_ICONO.svg",
+                "text": "Usamos cookies para mejorar tu experiencia. <br>\r\n            Revisa nuestras <a href=\"\/content\/28-politicas-de-privacidad\">pol\u00edticas de privacidad<\/a> y\r\n            <a href=\"\/content\/27-politica-de-cookies\">cookies<\/a>",
+                "backgroundcolor": "#f0f0f0e0",
+                "color": "#434343",
+                "border": "15",
+                "buttonColor": "#ffffff",
+                "buttonBackground": "#a2cc5e"
+            }
+        }
+    ]
+}
