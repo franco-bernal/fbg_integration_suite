@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>fbg_integration_suite</name>
+    <displayName><![CDATA[Suite de Integraci&oacute;n de Aplicaciones]]></displayName>
+    <version><![CDATA[1.0.0]]></version>
+    <description><![CDATA[La Suite de Integraci&oacute;n de Aplicaciones permite conectar y sincronizar m&uacute;ltiples aplicaciones externas con tu tienda PrestaShop. Mejora la gesti&oacute;n, automatiza procesos y ampl&iacute;a las funcionalidades del e-commerce.]]></description>
+    <author><![CDATA[Franco Bernal. ]]></author>
+    <tab><![CDATA[administration]]></tab>
+	<confirmUninstall><![CDATA[Desintalar Módulo. Aviso:Esto no desinstalará tablas de BD ni las limpiará. ]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>0</need_instance>
+	<limited_countries></limited_countries>
+</module>

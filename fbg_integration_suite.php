@@ -343,9 +343,17 @@ class Fbg_integration_suite extends Module
             // Decodificar los hooks JSON
             $hooksArray = $hooks ? json_decode($hooks, true) : [];
 
+
+            //  // Generar el enlace completo con el token incluido usando getAdminLink
+            //  $adminLink = $this->context->link->getAdminLink('AdminFbgIntegrationSuiteProxy', true, [], ['app' => $app['name']]);
+            //  echo ($adminLink);
+            //  echo "<hr>";
+            //  echo $this->context->link->getAdminLink('AdminFbgIntegrationSuiteProxy', true, [], ['app' => $app['name']]);
+            //  echo "<hr>";
             $appsData[] = [
                 'name' => $app['name'],
                 'url' => $app['url'],
+                'ir' => $this->context->link->getAdminLink('AdminFbgIntegrationSuiteProxy', true, [], ['app' => strtolower($app['name'])]),
                 'hooks' => is_array($hooksArray) ? $hooksArray : [], // Cargar hooks si existen
                 'className' => $className, // Nombre de la clase
                 'active' => isset($app['active']) ? (bool) $app['active'] : false, // Estado activo/inactivo

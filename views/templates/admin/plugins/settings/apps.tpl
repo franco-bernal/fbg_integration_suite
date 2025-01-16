@@ -28,7 +28,8 @@
                             <tr>
                                 <th scope="row">{$index+1}</th>
                                 <td>{$app.name|escape:'html':'UTF-8'}</td>
-                                <td>{$app.url|escape:'html':'UTF-8'}</td>
+                                <td><a href="{$app.ir}">{$app.url|escape:'html':'UTF-8'}
+                                </td>
                                 <td>
                                     {if isset($app.hooks) && !empty($app.hooks)}
                                         <ul class="list-unstyled">
